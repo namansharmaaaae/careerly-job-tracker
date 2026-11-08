@@ -224,7 +224,6 @@ export async function summarizeJobDescription(
             parts: [{ text: parsedDescription.data }],
           }],
           generationConfig: {
-            temperature: 0.2,
             maxOutputTokens: 700,
           },
         }),
@@ -242,6 +241,9 @@ export async function summarizeJobDescription(
 
   if (!response.ok) {
     console.error("Gemini API returned an unsuccessful status:", response.status);
+    if (response.status === 400) {
+      return { ok: false, error: "The Gemini request was rejected. Please try again, and contact support if it continues." };
+    }
     if (response.status === 429) {
       return { ok: false, error: "The AI service is busy or its usage limit was reached. Please try again later." };
     }
