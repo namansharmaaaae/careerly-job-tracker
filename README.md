@@ -40,8 +40,10 @@ To test on a phone through the current VS Code Dev Tunnel, open its forwarded HT
    - Add `http://localhost:3000` as an authorized JavaScript origin for local testing.
    - Add the callback URL shown on Supabase **Authentication → Providers → Google** as an authorized redirect URI in Google Cloud.
    - Enable Google on the Supabase provider page and enter the Google client ID and client secret there. Do not put the Google client secret in `.env.local` or frontend code.
-6. In Supabase **Authentication → URL Configuration**, set the local Site URL to `http://localhost:3000` and allow `http://localhost:3000/auth/callback` as a redirect URL. When deployed, add your production origin and callback too.
+6. In Supabase **Authentication → URL Configuration**, set the Site URL to your production origin (for example, `https://careerly-job-tracker-phi.vercel.app`) and add both `http://localhost:3000/auth/callback` and `https://careerly-job-tracker-phi.vercel.app/auth/callback` to the Redirect URLs list. The Site URL is the fallback; the production callback must be explicitly allowed.
 7. Restart the development server after changing environment variables.
+
+For Vercel, set `NEXT_PUBLIC_SITE_URL` to the production origin (without a trailing path), and add `NEXT_PUBLIC_SUPABASE_URL`, `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, and any optional `GEMINI_API_KEY` in the project’s Environment Variables settings. After changing variables, redeploy so the production build uses them. Keep `.env.local` and provider secrets out of Git.
 
 When signing in through the VS Code Dev Tunnel, also add the tunnel's exact callback URL (for example, `https://dk2qvf7w-3000.inc1.devtunnels.ms/auth/callback`) to Supabase **Authentication → URL Configuration → Redirect URLs**. Google sign-in starts through `/auth/google` and returns to the same host used to open the app, rather than redirecting to the server's internal `localhost` URL.
 
